@@ -8,7 +8,7 @@ import reactor.core.publisher.Mono;
 
 public interface ProductoRepository extends ReactiveCrudRepository<Producto, Long> {
 
-    Mono<Integer> deleteByIdAndSucursalId(Long idProducto, Long idSucursal);
+    Mono<Integer> borrarPorIdProductoIdSucursal(Long idProducto, Long idSucursal);
 
     @Query(value = """
             SELECT produc.* 

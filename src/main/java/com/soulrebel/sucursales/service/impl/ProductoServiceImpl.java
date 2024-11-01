@@ -28,8 +28,8 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     @Override
-    public Mono<String> borrarProducto(Long idProducto, Long idSucursal) {
-        return repository.deleteByIdAndSucursalId (idProducto, idSucursal)
+    public Mono<String> borrarPorIdProductoIdSucursal(Long idProducto, Long idSucursal) {
+        return repository.borrarPorIdProductoIdSucursal (idProducto, idSucursal)
                 .flatMap (resultado -> {
                     if (resultado == 0) {
                         var mensajeError = String.format (MENSAJE_ERROR, idProducto, idSucursal);

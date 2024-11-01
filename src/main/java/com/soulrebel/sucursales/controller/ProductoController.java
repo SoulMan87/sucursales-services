@@ -22,7 +22,7 @@ public class ProductoController implements ProductoControllerInterface {
 
     @Override
     public Mono<String> eliminarProducto(Long idProducto, Long idSucursal) {
-        return productoService.borrarProducto (idProducto, idSucursal);
+        return productoService.borrarPorIdProductoIdSucursal (idProducto, idSucursal);
     }
 
     @Override

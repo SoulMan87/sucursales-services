@@ -8,7 +8,7 @@ public interface ProductoService {
 
     Mono<Producto> crearProducto(Producto producto);
 
-    Mono<String> borrarProducto(Long idProducto, Long idSucursal);
+    Mono<String> borrarPorIdProductoIdSucursal(Long idProducto, Long idSucursal);
 
     Mono<Producto> actualizarElStockProducto(Long idProducto, Integer stock);
 
