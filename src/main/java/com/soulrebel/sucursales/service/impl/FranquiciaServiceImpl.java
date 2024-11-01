@@ -1,6 +1,7 @@
 package com.soulrebel.sucursales.service.impl;
 
 import com.soulrebel.sucursales.entity.Franquicia;
+import com.soulrebel.sucursales.exceptions.FranquiciaException;
 import com.soulrebel.sucursales.repository.FranquiciaRepository;
 import com.soulrebel.sucursales.service.FranquiciaService;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import static com.soulrebel.sucursales.utils.Utils.FRANQUICIA_NO_ENCONTRADA;
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = @__(@Autowired))
@@ -30,7 +33,9 @@ public class FranquiciaServiceImpl implements FranquiciaService {
         return repository.findById (idFranquicia)
                 .switchIfEmpty (
                         Mono.error (
-                                new Exception ("Error Franquicia")
+                                new FranquiciaException (
+                                        String.format (FRANQUICIA_NO_ENCONTRADA, idFranquicia)
+                                )
                         )
                 ).flatMap (franquicia -> {
                     franquicia.setNombre (nombreFranquicia);

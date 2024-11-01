@@ -1,6 +1,7 @@
 package com.soulrebel.sucursales.service.impl;
 
 import com.soulrebel.sucursales.entity.Producto;
+import com.soulrebel.sucursales.exceptions.ProductoException;
 import com.soulrebel.sucursales.repository.ProductoRepository;
 import com.soulrebel.sucursales.service.ProductoService;
 import lombok.RequiredArgsConstructor;
@@ -9,13 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import static com.soulrebel.sucursales.utils.Utils.MENSAJE_ERROR;
+import static com.soulrebel.sucursales.utils.Utils.PRODUCTO_ELIMINADO;
+import static com.soulrebel.sucursales.utils.Utils.PRODUCTO_NO_ENCONTRADO;
+
 @Service
 @RequiredArgsConstructor(onConstructor_ = @__(@Autowired))
 @Slf4j
 public class ProductoServiceImpl implements ProductoService {
 
-    private static final String MENSAJE_ERROR = "No se encontró un producto con id %d asociado a una sucursal con id %d";
-    private static final String PRODUCTO_ELIMINADO = "Producto eliminado";
     private final ProductoRepository repository;
 
     @Override
@@ -30,7 +33,7 @@ public class ProductoServiceImpl implements ProductoService {
                     if (resultado == 0) {
                         var mensajeError = String.format (MENSAJE_ERROR, idProducto, idSucursal);
                         log.error (mensajeError);
-                        return Mono.error (new Exception (mensajeError));
+                        return Mono.error (new ProductoException (mensajeError));
                     }
                     return Mono.just (PRODUCTO_ELIMINADO);
                 });
@@ -41,7 +44,7 @@ public class ProductoServiceImpl implements ProductoService {
         return repository.findById (idProducto)
                 .switchIfEmpty (
                         Mono.error (
-                                new Exception (String.format ("Producto con id %d no encontrado",
+                                new ProductoException (String.format (PRODUCTO_NO_ENCONTRADO,
                                         idProducto)
                                 )
                         )
@@ -56,8 +59,8 @@ public class ProductoServiceImpl implements ProductoService {
     public Mono<Producto> actualizarNombreProducto(Long idProducto, String nombre) {
         return repository.findById (idProducto)
                 .switchIfEmpty (Mono.error (
-                        new Exception (
-                                String.format ("Producto con id %d no encontrado", idProducto)
+                        new ProductoException (
+                                String.format (PRODUCTO_NO_ENCONTRADO, idProducto)
                         )
                 ))
                 .flatMap (prod -> {
