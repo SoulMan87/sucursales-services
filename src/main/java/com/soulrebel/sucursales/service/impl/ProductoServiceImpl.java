@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import static com.soulrebel.sucursales.utils.Utils.MENSAJE_ERROR;
@@ -67,5 +68,10 @@ public class ProductoServiceImpl implements ProductoService {
                     prod.setNombre (nombre);
                     return repository.save (prod);
                 });
+    }
+
+    @Override
+    public Flux<Producto> obtenerMaximoStockPorSucursal(Long idFranquicia) {
+        return repository.obtenerMaximoStockPorSucursal (idFranquicia);
     }
 }

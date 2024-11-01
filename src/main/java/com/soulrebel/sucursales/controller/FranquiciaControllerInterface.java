@@ -1,6 +1,7 @@
 package com.soulrebel.sucursales.controller;
 
 import com.soulrebel.sucursales.entity.Franquicia;
+import com.soulrebel.sucursales.entity.Producto;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,4 +30,9 @@ public interface FranquiciaControllerInterface {
     Mono<Franquicia> actualizarNombreFranquicia(
             @PathVariable("idFranquicia") Long idFranquicia,
             @RequestParam("nombre") String nombre);
+
+    @GetMapping("/{idFranquicia}/productos-max-stock")
+    @ResponseStatus(HttpStatus.OK)
+    Flux<Producto> obtenerMaximoStockPorSucursal(
+            @PathVariable("idFranquicia") Long idFranquicia);
 }
