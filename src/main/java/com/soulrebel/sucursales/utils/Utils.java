@@ -8,5 +8,6 @@ public abstract class Utils {
     public static final String FRANQUICIA_NO_ENCONTRADA = "Franquicia con id %d no encontrada";
     public static final String PRODUCTO_NO_ENCONTRADO = "Producto con id %d no encontrado";
     public static final String ERROR_GUARDAR_FRANQUICIA = "Error al guardar franquicia";
+    public static final String ERROR_GUARDAR_SUCURSAL = "Error al guardar la sucursal";
 
 }
